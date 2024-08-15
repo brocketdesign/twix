@@ -22,3 +22,32 @@
    ```bash
    git clone https://github.com/brocketdesign/twix.git
    cd twix
+
+Here's the README translated into Japanese:
+---
+
+# Twix
+
+**Twix**は、Twitterや類似プラットフォームからトレンド動画をスクレイピングして表示するためのWebアプリケーションです。このアプリは無限スクロール機能を備えており、日本のオーディエンス向けにSEO最適化されています。
+
+## 特徴
+
+- **トレンド動画フィード:** 最新の動画が自動的に更新されます。
+- **無限スクロール:** ユーザーがスクロールする際にシームレスにコンテンツを読み込みます。
+- **SEO最適化:** Next.jsを使用して検索エンジンでの可視性を確保します。
+- **動画再生ページ:** 動画を再生し、類似コンテンツのおすすめを表示します。
+- **レスポンシブデザイン:** モバイルおよびデスクトップの両方に最適化されています。
+
+## 技術スタック
+
+- **フロントエンド:** ReactとNext.js、Tailwind CSSを使用したスタイリング、通知にはReact-ToastifyまたはSweetAlert2を使用。
+- **バックエンド:** サーバーにExpress.js、データ管理にMongoDBとMongooseを使用。
+- **デプロイ:** Heroku（Procfileが含まれています）。
+
+## インストール
+
+1. **リポジトリをクローン:**
+   ```bash
+   git clone https://github.com/brocketdesign/twix.git
+   cd twix
+   ```
