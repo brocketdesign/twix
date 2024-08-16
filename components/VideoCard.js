@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 const VideoCard = React.forwardRef(({ video }, ref) => {
     return (
-        <div ref={ref} className="bg-white shadow-md rounded-lg p-4 mb-4">
+        <div ref={ref} className="bg-white shadow-md rounded-lg p-1 mb-4">
             <Link href={`/video/${video._id}`}>
                 <img src={video.thumbnail} alt={video.title} className="full-width h-48 object-cover rounded-md cursor-pointer" />
             </Link>
-            <h2 className="text-xl font-bold mt-2">
+            <h2 className="hidden text-xl font-bold mt-2">
                 <Link href={`/video/${video._id}`}>
                     {video.title}
                 </Link>

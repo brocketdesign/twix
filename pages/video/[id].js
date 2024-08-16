@@ -34,7 +34,7 @@ export default function VideoPage() {
             </Head>
             <main className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">{video.title}</h1>
-                <video key={video.url} controls className="full-width h-auto mb-4">
+                <video key={video.url} controls autoplay="true" className="full-width h-auto mb-4">
                     <source src={video.url} type="video/mp4" />
                 </video>
                 <p className="text-gray-600 mb-6">{video.description}</p>

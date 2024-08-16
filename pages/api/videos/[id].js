@@ -17,10 +17,11 @@ export default async function handler(req, res) {
                     return res.status(404).json({ success: false, message: 'Video not found' });
                 }
 
-                const similarVideos = await Video.find({
-                    _id: { $ne: id }, // Exclude the current video
-                    tags: { $in: video.tags } // Match videos with similar tags
-                });
+                const similarVideos = await Video.aggregate([
+                    { $match: { _id: { $ne: id }, tags: { $in: video.tags } } }, // Exclude the current video and match tags
+                    { $sample: { size: 100 } } // Replace 5 with the number of random videos you want to return
+                ]);
+                
 
 
                 res.status(200).json({ video, similarVideos });

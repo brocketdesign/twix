@@ -1,23 +1,30 @@
 /* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Masonry grid styles */
 .my-masonry-grid {
     display: flex;
-    margin-left: -30px; /* gutter size offset */
+    margin-left: -10px; /* gutter size offset */
     width: auto;
   }
   
   .my-masonry-grid_column {
-    padding-left: 30px; /* gutter size */
+    padding-left: 10px; /* gutter size */
     background-clip: padding-box;
   }
   
   /* Style individual items (video cards in this case) */
   .my-masonry-grid_column > div {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+  }
+  video.full-width {
+    max-height: 90vh;
   }
   .full-width {
     width: 100%;
     text-align: center;
     border-radius: 5px;
-}
+    height: auto;
+  }

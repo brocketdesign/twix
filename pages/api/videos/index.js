@@ -11,12 +11,10 @@ export default async function handler(req, res) {
         case 'GET':
             try {
                 const query = tag ? { tags: { $in: [tag] } } : {};
-                console.log({query})
                 const videos = await Video.find(query)
                     .sort({ _id: 1 })
                     .skip((page - 1) * limit)
                     .limit(parseInt(limit));
-                console.log({videos})
                 res.status(200).json(videos);
             } catch (error) {
                 res.status(400).json({ success: false });
