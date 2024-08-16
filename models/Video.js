@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-const videoSchema = new mongoose.Schema({
+const VideoSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: String,
     url: { type: String, required: true },
-    source: String, 
+    source: String,  // e.g., Twitter, other websites
     thumbnail: String,
     tags: [String],
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Video', videoSchema);
+// Check if the model already exists to avoid OverwriteModelError
+module.exports = mongoose.models.Video || mongoose.model('Video', VideoSchema);

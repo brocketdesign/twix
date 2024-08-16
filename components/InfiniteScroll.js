@@ -20,7 +20,8 @@ export default function InfiniteScroll({ fetchMoreData, children }) {
         setIsFetching(true);
     }
 
-    function fetchMoreData() {
+    // Renamed this function to avoid conflict
+    function doneFetching() {
         setIsFetching(false);
     }
 
