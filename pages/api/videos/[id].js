@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
                 const similarVideos = await Video.aggregate([
                     { $match: { _id: { $ne: id }, tags: { $in: video.tags } } }, // Exclude the current video and match tags
-                    { $sample: { size: 100 } } // Replace 5 with the number of random videos you want to return
+                    { $sample: { size: 10 } } // Replace 5 with the number of random videos you want to return
                 ]);
                 
 
