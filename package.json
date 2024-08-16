@@ -2,11 +2,12 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "NODE_ENV=production node server/server.js"
-  },
+"scripts": {
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix client",
+    "heroku-postbuild": "npm run build --prefix client"
+},
+
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "next": "14.2.5",
