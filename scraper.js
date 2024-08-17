@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const Video = require('./models/Video');
@@ -112,16 +113,68 @@ async function scrapeMonsnodeVideos() {
     }
 }
 
+async function scrapeTwivideo() {
+    await dbConnect();
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
+      });
+    const page = await browser.newPage();
+    const urls = [
+        'https://twivideo.net/?ranking',
+        'https://twivideo.net/?ranking&sort=3days',
+        'https://twivideo.net/?ranking&sort=week'
+    ];
 
-// Run an initial scrape when the script starts
+    for (const url of urls) {
+        try {
+            await page.goto(url, { waitUntil: 'networkidle2' });
+            const videos = await page.evaluate(() => {
+                const videoElements = Array.from(document.querySelectorAll('a.item_clk.item_link'));
+                return videoElements.map(el => ({
+                    url: el.href,
+                    thumbnail: el.querySelector('img') ? el.querySelector('img').src : 'Twitter最新動画 | Twivideo',
+                }));
+            });
+            const videoPromises = videos.map(video => {
+                const videoData = {
+                    title: 'Twivideo',
+                    url: video.url,
+                    source: 'Twivideo',
+                    thumbnail: video.thumbnail,
+                    tags: ['twivideo'],
+                };
+                return Video.findOneAndUpdate(
+                    { url: video.url },
+                    videoData,
+                    { upsert: true, new: true, setDefaultsOnInsert: true }
+                );
+            });
+
+            await Promise.all(videoPromises);
+            console.log(`Videos from "${url}" have been saved or updated.`);
+        } catch (error) {
+            console.error(`Error scraping URL "${url}":`, error);
+        }
+    }
+
+    await browser.close();
+}
+
+scrapeTwivideo().then(() => {
+    console.log('Initial scrapeTwivideo complete. Cron job scheduled. Waiting for next execution...');
+}).catch(err => {
+    console.error('Error during initial scrapeTwivideo:', err);
+});
+
+/*
 scrapeMonsnodeVideos().then(() => {
     console.log('Initial scrapeMonsnodeVideos complete. Cron job scheduled. Waiting for next execution...');
 }).catch(err => {
     console.error('Error during initial scrapeMonsnodeVideos:', err);
 });
 
-/*
-// Run an initial scrape when the script starts
+
 scrapeVideos().then(() => {
     console.log('Initial scrapeVideos complete. Cron job scheduled. Waiting for next execution...');
 }).catch(err => {

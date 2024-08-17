@@ -61,14 +61,14 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head>
-                <title>Twix - 最新の動画</title>
+                <title>Twitter最新の動画保存ランキング | Twix </title>
                 <meta name="description" content="Twitterや他のプラットフォームから最新の動画を視聴できます。" />
                 <meta name="keywords" content="Twitter動画, 最新動画, 無料動画, 日本, 動画プラットフォーム" />
                 <meta name="robots" content="index, follow" />
             </Head>
             <main className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold mb-4">最新の動画</h1>
-
+                <span>みんながダウンロード保存した人気のツイッター動画 </span>
                 {/* Display Tags */}
                 <div className="mb-4 flex flex-wrap gap-2">
                     {tags.map(tag => (
