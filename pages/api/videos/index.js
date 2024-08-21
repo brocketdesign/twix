@@ -12,7 +12,7 @@ export default async function handler(req, res) {
             try {
                 const query = tag ? { tags: { $in: [tag] } } : {};
                 const videos = await Video.find(query)
-                    .sort({ _id: 1 })
+                    .sort({ _id: -1 })
                     .skip((page - 1) * limit)
                     .limit(parseInt(limit));
                 res.status(200).json(videos);

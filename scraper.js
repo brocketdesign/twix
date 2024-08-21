@@ -167,7 +167,7 @@ scrapeTwivideo().then(() => {
     console.error('Error during initial scrapeTwivideo:', err);
 });
 
-/*
+
 scrapeMonsnodeVideos().then(() => {
     console.log('Initial scrapeMonsnodeVideos complete. Cron job scheduled. Waiting for next execution...');
 }).catch(err => {
@@ -180,4 +180,3 @@ scrapeVideos().then(() => {
 }).catch(err => {
     console.error('Error during initial scrapeVideos:', err);
 });
-*/

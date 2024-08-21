@@ -6,33 +6,25 @@ import VideoList from '../../components/VideoList';
 export default function TagPage() {
     const router = useRouter();
     const { tagname } = router.query;
-    const [tags, setTags] = useState([]);
     const [videos, setVideos] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const initialFetchDone = useRef(false);
     const observer = useRef();
 
     useEffect(() => {
-        if (!initialFetchDone.current && tagname) {
-            fetchVideos();
-            fetchTags();
-            initialFetchDone.current = true;
-        }
+        // When the tagname changes, reset videos and fetch the first page
+        setVideos([]);
+        setPage(1);
+        setHasMore(true);
     }, [tagname]);
 
     useEffect(() => {
-        if (page > 1) {
+        // Fetch videos whenever page or tagname changes
+        if (tagname) {
             fetchVideos();
         }
-    }, [page]);
-
-    const fetchTags = async () => {
-        const res = await fetch('/api/tags');
-        const data = await res.json();
-        setTags(data);
-    };
+    }, [tagname, page]);
 
     const fetchVideos = async () => {
         if (loading || !hasMore) return;
@@ -60,14 +52,6 @@ export default function TagPage() {
         if (node) observer.current.observe(node);
     }, [loading, hasMore]);
 
-    const handleTagClick = (tag) => {
-        setPage(1);  // Reset page when switching tags
-        setVideos([]);  // Clear videos when switching tags
-        setHasMore(true);  // Reset hasMore when switching tags
-        initialFetchDone.current = false;  // Allow re-fetching for new tag
-        router.push(`/tags/${tag}`);
-    };
-
     return (
         <div className="min-h-screen bg-gray-100">
             <Head>
@@ -76,16 +60,6 @@ export default function TagPage() {
             </Head>
             <main className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold mb-4">タグ: {tagname}</h1>
-                <div className="mb-4 flex flex-wrap gap-2">
-                    {tags.map(tag => (
-                        <button 
-                            key={tag} 
-                            className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl"
-                            onClick={() => handleTagClick(tag)}>
-                            #{tag}
-                        </button>
-                    ))}
-                </div>
                 <VideoList key={tagname} videos={videos} lastVideoElementRef={lastVideoElementRef} />
                 {loading && <p>Loading...</p>}
             </main>
