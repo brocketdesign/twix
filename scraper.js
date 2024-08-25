@@ -160,7 +160,54 @@ async function scrapeTwivideo() {
 
     await browser.close();
 }
+async function scrapeRedditVideos(subreddits, nsfw = false) {
+    await dbConnect();
 
+    for (const subreddit of subreddits) {
+        try {
+            const url = `https://www.reddit.com/r/${subreddit}/.json?limit=100`;
+            const { data } = await axios.get(url);
+            
+            const videoPromises = data.data.children.map(async (post) => {
+                const postData = post.data;
+                console.log({
+                    video : postData.is_video,
+                    nsfw: postData.over_18,
+                })
+                if (postData.is_video && postData.over_18 === nsfw) {
+                    const videoData = {
+                        title: postData.title || 'reddit',
+                        url: postData.media.reddit_video.fallback_url || 'Unknown Video Link',
+                        source: `reddit/${subreddit}`,
+                        thumbnail: postData.thumbnail || 'Unknown Thumbnail',
+                        tags: [subreddit],
+                    };
+                    console.log(videoData)
+                    return Video.findOneAndUpdate(
+                        { url: videoData.url },
+                        videoData,
+                        { upsert: true, new: true, setDefaultsOnInsert: true }
+                    );
+                }
+            });
+
+            await Promise.all(videoPromises);
+            console.log(`Videos from subreddit "${subreddit}" have been saved or updated.`);
+        } catch (error) {
+            console.error(`Error scraping subreddit "${subreddit}":`, error);
+        }
+    }
+}
+
+// Usage
+/*
+const subreddits = ['JPVhub'];
+scrapeRedditVideos(subreddits, true).then(() => {
+    console.log('Initial scrapeRedditVideos complete. Cron job scheduled. Waiting for next execution...');
+}).catch(err => {
+    console.error('Error during initial scrapeRedditVideos:', err);
+});
+*/
 scrapeTwivideo().then(() => {
     console.log('Initial scrapeTwivideo complete. Cron job scheduled. Waiting for next execution...');
 }).catch(err => {

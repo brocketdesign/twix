@@ -17,14 +17,7 @@ export default async function handler(req, res) {
                     return res.status(404).json({ success: false, message: 'Video not found' });
                 }
 
-                const similarVideos = await Video.aggregate([
-                    { $match: { _id: { $ne: id }, tags: { $in: video.tags } } }, // Exclude the current video and match tags
-                    { $sample: { size: 10 } } // Replace 5 with the number of random videos you want to return
-                ]);
-                
-
-
-                res.status(200).json({ video, similarVideos });
+                res.status(200).json({ video });
             } catch (error) {
                 console.error(`Error fetching video or similar videos: ${error.message}`);
                 res.status(400).json({ success: false, message: error.message });

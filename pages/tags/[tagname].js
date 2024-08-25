@@ -11,44 +11,57 @@ export default function TagPage() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
+    const fetchTrigger = useRef(false); // Track whether the fetch has been triggered
+
+    const fetchVideos = async () => {
+        if (loading || !hasMore || fetchTrigger.current) return;
+        fetchTrigger.current = true;
+        setLoading(true);
+
+        try {
+            const res = await fetch(`/api/videos?tag=${tagname}&page=${page}&limit=4`);
+            const data = await res.json();
+
+            if (data.length === 0) {
+                setHasMore(false);
+            } else {
+                setVideos(prev => [...prev, ...data]);
+            }
+        } catch (error) {
+            console.error('Error fetching videos:', error);
+        } finally {
+            setLoading(false);
+            fetchTrigger.current = false; // Reset the fetch trigger
+        }
+    };
 
     useEffect(() => {
-        // When the tagname changes, reset videos and fetch the first page
+        if (!tagname) return;
+
         setVideos([]);
         setPage(1);
         setHasMore(true);
+        fetchTrigger.current = false; // Reset the fetch trigger when tagname changes
+
+        fetchVideos(); // Fetch the first page of videos
     }, [tagname]);
 
     useEffect(() => {
-        // Fetch videos whenever page or tagname changes
-        if (tagname) {
+        if (page > 1) {
             fetchVideos();
         }
-    }, [tagname, page]);
-
-    const fetchVideos = async () => {
-        if (loading || !hasMore) return;
-        setLoading(true);
-        const res = await fetch(`/api/videos?tag=${tagname}&page=${page}&limit=4`);
-        const data = await res.json();
-
-        if (data.length === 0) {
-            setHasMore(false);
-        } else {
-            setVideos(prev => [...prev, ...data]);
-        }
-
-        setLoading(false);
-    };
+    }, [page]);
 
     const lastVideoElementRef = useCallback(node => {
-        if (loading) return;
+        if (loading || !hasMore) return;
         if (observer.current) observer.current.disconnect();
+
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
+            if (entries[0].isIntersecting) {
                 setPage(prev => prev + 1);
             }
         });
+
         if (node) observer.current.observe(node);
     }, [loading, hasMore]);
 
