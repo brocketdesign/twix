@@ -19,12 +19,13 @@ export default async function handler(req, res) {
                 }
 
                 const skip = (page - 1) * limit;
-
+                
                 const similarVideos = await Video.aggregate([
-                    { $match: { _id: { $ne: id }, tags: { $in: video.tags } } }, 
+                    { $match: { _id: { $ne: id }, tags: { $in: video.tags } } },
+                    { $sort: { _id: -1 } },
                     { $skip: skip },
                     { $limit: parseInt(limit) }
-                ]);
+                ]);                
 
                 res.status(200).json({ video, similarVideos });
             } catch (error) {
