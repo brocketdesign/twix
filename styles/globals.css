@@ -28,3 +28,25 @@
     border-radius: 5px;
     height: auto;
   }
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+}
+
+.cookie-banner button {
+    margin: 0 1em;
+    padding: 0.5em 1em;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.cookie-banner button:hover {
+    background-color: #0056b3;
+}
