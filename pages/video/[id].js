@@ -81,7 +81,7 @@ export default function VideoPage() {
             <Head>
                 <title>ツイッター動画保存ランキング ({video.title}) - ツイックス (Twix)</title>
                 <meta name="description" content={video.description} />
-                <meta name="keywords" content={`Twitter動画, ${video?.tags?.join(', ') ?? ''}, 無料動画, 日本`} />
+                <meta name="keywords" content={`Twitter動画,ツイッター, ${video?.tags?.join(', ') ?? ''}, 無料動画, 日本`} />
                 <meta name="robots" content="index, follow" />
             </Head>
             <main className="container mx-auto p-4">

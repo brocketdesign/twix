@@ -70,6 +70,7 @@ export default function TagPage() {
             <Head>
                 <title>ツイックス (Twix) - ツイッター{tagname}の動画</title>
                 <meta name="description" content={`タグ: ${tagname} の動画を視聴できます。`} />
+                <meta name="keywords" content={`Twitter動画,ツイッター, ${tagname}, 無料動画, 日本`} />
             </Head>
             <main className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold mb-4">タグ: {tagname}</h1>

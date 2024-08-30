@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
     return (
         <Layout>
             <Head>
-                {/* Google Tag Manager Script with Consent Mode */}
+                <link rel="icon" href="/favicon.ico" />
                 <script
                     dangerouslySetInnerHTML={{
                         __html: `
