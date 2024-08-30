@@ -79,13 +79,13 @@ export default function VideoPage() {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head>
-                <title>{video.title} - Twix</title>
+                <title>ツイッター動画保存ランキング ({video.title}) - ツイックス (Twix)</title>
                 <meta name="description" content={video.description} />
                 <meta name="keywords" content={`Twitter動画, ${video?.tags?.join(', ') ?? ''}, 無料動画, 日本`} />
                 <meta name="robots" content="index, follow" />
             </Head>
             <main className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-4">{video.title}</h1>
+                <h1 className="text-2xl font-bold mb-4">Twitter動画保存ランキング ({video.title})</h1>
                 <video key={video.url} controls autoPlay className="full-width h-auto mb-4">
                     <source src={video.url} type="video/mp4" />
                 </video>

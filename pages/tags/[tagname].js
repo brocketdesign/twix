@@ -68,7 +68,7 @@ export default function TagPage() {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head>
-                <title>Twix - {tagname}の動画</title>
+                <title>ツイックス (Twix) - ツイッター{tagname}の動画</title>
                 <meta name="description" content={`タグ: ${tagname} の動画を視聴できます。`} />
             </Head>
             <main className="container mx-auto p-4">
