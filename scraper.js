@@ -200,6 +200,7 @@ async function scrapeRedditVideos(subreddits, nsfw = false) {
 }
 
 // Usage
+
 /*
 const subreddits = ['JPVhub'];
 scrapeRedditVideos(subreddits, true).then(() => {
@@ -207,7 +208,7 @@ scrapeRedditVideos(subreddits, true).then(() => {
 }).catch(err => {
     console.error('Error during initial scrapeRedditVideos:', err);
 });
-*/
+
 scrapeTwivideo().then(() => {
     console.log('Initial scrapeTwivideo complete. Cron job scheduled. Waiting for next execution...');
 }).catch(err => {
@@ -227,3 +228,4 @@ scrapeVideos().then(() => {
 }).catch(err => {
     console.error('Error during initial scrapeVideos:', err);
 });
+*/
